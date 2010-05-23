@@ -1,4 +1,10 @@
 #mast
   %h2 Social Data
 #content
+  %form{ action: "", id: "friends" }
+    %input{ type: "text", id: "name" }
+    %input{ type: "submit", value: "Find" }
+  #friend-results
+    #intro
+      Loading...
   %p!= data
