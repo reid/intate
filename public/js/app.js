@@ -50,8 +50,8 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
             {key:"user_name", label:"User"}
         ];
  
-        var myDataSource = new YAHOO.util.DataSource("/api/etsy/" + user);
-        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
+        var myDataSource = new YAHOO.util.XHRDataSource("/api/etsy/" + user);
+        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSARRAY;
         myDataSource.responseSchema = {
             resultsList:"",
             fields: ["title", "image_url_155x125", "user_name", "url"]
