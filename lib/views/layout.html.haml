@@ -1,14 +1,18 @@
 !!! 5
 %html{ lang: "en" }
   %head
-    %title Welcome to Intate
-    %link{ rel: 'stylesheet', href: '/public/css/style.css' }
-    %script{ src: '/public/js/app.js' }
+    %title Intate
+    %link{ rel: "stylesheet", href: "http://yui.yahooapis.com/combo?3.1.1/build/cssreset/reset-min.css&3.1.1/build/cssfonts/fonts-min.css" }
+    %link{ rel: "stylesheet", href: "/public/rendered/css/layout.css" }
   %body
-    #header
-      %h1
-        %a{ href: '/' }  intate
-    #main
-      #mid
+    #doc
+      #hd
+        %h1
+          %a{ href: '/' } Intate
+      #bd
         #content
           != body
+      #ft
+        %p &copy; Reid Burke &mdash; A Disrupt Hack
+    %script{ src: "http://yui.yahooapis.com/combo?3.1.1/build/yui/yui-min.js&3.1.1/build/loader/loader-min.js" }
+    %script{ src: "/public/js/app.js" }
