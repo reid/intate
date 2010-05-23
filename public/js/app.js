@@ -19,6 +19,7 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
                 oAC.useShadow = true;
 
                 Y.one("#friends").on("submit", function (e) {
+                    e.halt();
                     query(Y.one("#name").get("value"));
                 }); 
             },
