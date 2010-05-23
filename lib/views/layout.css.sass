@@ -1,8 +1,14 @@
 h1
   :text-transform lowercase
   :font bold 50pt Helvetica, sans-serif
-  :letter-spacing -3px
+  :letter-spacing -4px
   :text-shadow 2px 2px 1px #5ac3e5
+h1 span
+  :font-weight normal
+  :color #ccc
+  :font-size 30pt
+  :text-shadow 0 0 0
+  :letter-spacing -2px
 a
   :color #004890
 #hd, #content, #mast
@@ -16,12 +22,16 @@ a
 #ft p
   :clear right
   :float right
-#ft p.sub
+#ft em
+  :font-weight bold
+#ft p, #ft a
   :color #777
 a
   :text-decoration none
+#ft a
+  :text-decoration underline
 #mast
-  :background #cff
+  :background #dff
 #mast h2
   :padding 10px
   :font-weight bold
@@ -35,6 +45,9 @@ a
   :font-size 30pt
 #intro a
   :font-size 34pt
+  :background #cfc
+  :border 1px solid #ada
+  :padding 10px
 #query
   :width 500px
   :margin-left 20px
@@ -46,3 +59,5 @@ a
 .yui-ac-content
   :font-size 24pt
   :width 301px
+#friend-results
+  :font-size 14pt

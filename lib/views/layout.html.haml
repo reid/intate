@@ -11,12 +11,17 @@
       #hd
         %h1
           %a{ href: '/' } Intate
+          %span is handmade goodness for your friends
       #bd
         != body
       #ft
         %p
-          &copy; Reid Burke &mdash; A Disrupt Hack
+          &copy; 2010
+          %a{ href: "http://reidburke.com/" } Reid Burke
+          &mdash; A <em>TC Disrupt</em> Hack
         %p.sub
           Powered by Etsy, YQL, Heroku, NodeJS &amp; love
+          &mdash; Grab the
+          %a{ href: "http://github.com/reid/intate" } Source on GitHub
     %script{ src: "http://yui.yahooapis.com/combo?3.1.1/build/yui/yui-min.js&3.1.1/build/loader/loader-min.js" }
     %script{ src: "/public/js/app.js" }
