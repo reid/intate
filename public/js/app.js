@@ -36,7 +36,7 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
     });
 
     var query = function (user) {
-        Y.one("#friend-results").setContent("Loading...");
+        Y.one("#friend-results").setContent("<img src='http://d.yimg.com/a/i/ww/met/anim_loading_sm_082208.gif'> Loading...");
 
         Y.io("/api/etsy/" + user, {
             on : {
