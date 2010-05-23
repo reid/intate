@@ -1,12 +1,12 @@
 #mast
-  %h2 Social Data
-#content
   #query
+    %h2 Shopping for
     %form{ action: "", id: "friends" }
       %input{ type: "text", id: "name" }
-      #name-dropdown
       %input{ type: "hidden", id: "friend-id" }
-      %input{ type: "submit", value: "Find" }
+      #name-dropdown
+  %div{ style: "clear:both" }
+#content
   #friend-results
     #intro
       %p Select a friend to begin!

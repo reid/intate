@@ -36,13 +36,16 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
     });
 
     var query = function (user) {
-        console.log(user);
+        Y.one("#friend-results").setContent("Loading...");
 
         Y.io("/api/etsy/" + user, {
             on : {
                 success : function (id, o) {
                     var results = Y.JSON.parse(o.responseText);
                     queryFails(results);
+                },
+                failure : function () {
+                    Y.one("#friend-results").setContent("Sorry, try again!");
                 }
             }
         });
