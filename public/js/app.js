@@ -1,12 +1,12 @@
 YUI().use("node", "json", "io", "yui2-autocomplete", function (Y) {    
-console.log("HELLO");
+    console.log("HELLO WORLD");
+
+    YAHOO = Y.YUI2;
 
     Y.io("/api/friends", {
         on : {
-            success : function (response) {
+            success : function (id, response) {
                 var friends = Y.JSON.parse(response.responseText);
-
-                YAHOO = Y.YUI2;
 
                 // Use a LocalDataSource
                 var oDS = new YAHOO.util.LocalDataSource(friends);
