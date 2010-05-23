@@ -11,7 +11,7 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
                 // Use a LocalDataSource
                 var oDS = new YAHOO.util.LocalDataSource(friends);
                 // Optional to define fields for single-dimensional array
-                oDS.responseSchema = {fields : ["name"]};
+                oDS.responseSchema = {fields : ["name", "id"]};
              
                 // Instantiate the AutoComplete
                 var oAC = new YAHOO.widget.AutoComplete("name", "name-dropdown", oDS);
