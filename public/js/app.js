@@ -42,15 +42,13 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
             on : {
                 success : function (id, o) {
                     var results = Y.JSON.parse(o.responseText);
-                    for (var i in results) {
-                        console.log(results[i]);
-                    }
+                    queryFails(results);
                 }
             }
         });
     };
 
-    queryFails = function  (user) {
+    var queryFails = function  (source) {
         var formatUrl = function(elCell, oRecord, oColumn, sData) {
             elCell.innerHTML = "<a href='" + oRecord.getData("url") + "' target='_blank'>" + sData + "</a>";
         };
@@ -65,8 +63,8 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
             {key:"user_name", label:"User"}
         ];
  
-        var myDataSource = new YAHOO.util.XHRDataSource("/api/etsy/" + user);
-        myDataSource.responseType = YAHOO.util.XHRDataSource.TYPE_JSON;
+        var myDataSource = new YAHOO.util.DataSource(source);
+        myDataSource.responseType = YAHOO.util.DataSource.TYPE_JSARRAY;
         myDataSource.responseSchema = {
             resultsList:"",
             fields: ["title", "image_url_155x125", "user_name", "url"]
