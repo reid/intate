@@ -17,6 +17,7 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
                 var oAC = new YAHOO.widget.AutoComplete("name", "name-dropdown", oDS);
                 oAC.prehighlightClassName = "yui-ac-prehighlight";
                 oAC.useShadow = true;
+                oAC.resultTypeList = false;
 
                 var friendid = Y.one("#friend-id");
 
