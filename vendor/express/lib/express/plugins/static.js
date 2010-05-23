@@ -68,7 +68,7 @@ exports.Static = Plugin.extend({
               return self.respond(304, null)
             self.header('Content-Length', stat.size)
             self.header('ETag', etag)
-            self.stream(fs.createReadStream(path, options))
+            self.respond(200, fs.readFileSync(path, "binary"))
           })
           return this
         },
