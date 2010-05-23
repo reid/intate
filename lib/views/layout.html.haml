@@ -10,9 +10,11 @@
         %h1
           %a{ href: '/' } Intate
       #bd
-        #content
-          != body
+        != body
       #ft
-        %p &copy; Reid Burke &mdash; A Disrupt Hack
+        %p
+          &copy; Reid Burke &mdash; A Disrupt Hack
+        %p.sub
+          Powered by Etsy, YQL, Heroku, NodeJS &amp; love
     %script{ src: "http://yui.yahooapis.com/combo?3.1.1/build/yui/yui-min.js&3.1.1/build/loader/loader-min.js" }
     %script{ src: "/public/js/app.js" }
