@@ -18,9 +18,14 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
                 oAC.prehighlightClassName = "yui-ac-prehighlight";
                 oAC.useShadow = true;
 
+                var friendid = Y.one("#friend-id");
+
+                oAC.itemSelectEvent.subscribe(function (type, args) {
+                    friendid.set("value", args[2].id);
+                });
                 Y.one("#friends").on("submit", function (e) {
                     e.halt();
-                    query(Y.one("#name").get("value"));
+                    query(friendid.get("value"));
                 }); 
             },
             failure : function (resp) {
