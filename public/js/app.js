@@ -1,7 +1,7 @@
 YUI().use("node", "json", "io", "yui2-autocomplete", function (Y) {    
 console.log("HELLO");
 
-    Y.io("api/friends", {
+    Y.io("/api/friends", {
         on : {
             success : function (response) {
                 var friends = Y.JSON.parse(response.responseText);
