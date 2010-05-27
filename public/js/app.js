@@ -1,6 +1,17 @@
-YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function (Y) {    
-    console.log("HELLO WORLD");
+(function () {
 
+if (!document.getElementById("friend-results")) return;
+
+YUI().use("node", "json", "io", "overlay", "yui2-autocomplete", "yui2-datatable", function (Y) {
+
+    var overlay = new Y.Overlay({
+        headerContent : "<img src='http://d.yimg.com/a/i/ww/met/anim_loading_sm_082208.gif'> Loading...",
+        bodyContent : "We're getting names of your friends on Facebook.",
+        visible : true,
+        centered : true
+    });
+    overlay.render("#modal");
+ 
     YAHOO = Y.YUI2;
 
     Y.io("/api/friends", {
@@ -28,24 +39,32 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
                     e.halt();
                     query(friendid.get("value"));
                 }); 
+                overlay.set("visible", false);
             },
             failure : function (resp) {
-                console.log("FAIL", resp);
+                overlay.set("headerContent", Y.Node.create("Apologies"));
+                overlay.set("bodyContent", Y.Node.create("We're sorry, but we couldn't get your Facebook friends right now.<br>Please try again soon."));
+                overlay.set("centered", true);
             }
         }
     });
 
     var query = function (user) {
-        Y.one("#friend-results").setContent("<img src='http://d.yimg.com/a/i/ww/met/anim_loading_sm_082208.gif'> Loading...");
+        Y.one("#friend-results").setContent("");
+        overlay.set("bodyContent", Y.Node.create("Finding awesome stuff on Etsy.<br>Hang tight, this might take several seconds!"));
+        overlay.set("centered", true);
+        overlay.set("visible", true);
 
         Y.io("/api/etsy/" + user, {
             on : {
                 success : function (id, o) {
                     var results = Y.JSON.parse(o.responseText);
                     queryFails(results);
+                    overlay.set("visible", false);
                 },
                 failure : function () {
-                    Y.one("#friend-results").setContent("Sorry, try again!");
+                    Y.one("#friend-results").setContent("Sorry, we couldn't find anything. Try another name!");
+                    overlay.set("visible", false);
                 }
             }
         });
@@ -97,3 +116,5 @@ YUI().use("node", "json", "io", "yui2-autocomplete", "yui2-datatable", function 
     };
 
 });
+
+})();
