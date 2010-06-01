@@ -58,7 +58,6 @@ YUI().use("node", "json", "io", "overlay", "yui2-autocomplete", "yui2-datatable"
     });
 
     var query = function (user) {
-        Y.one("#friend-results").setContent("Loading...");
         overlay.set("bodyContent", Y.Node.create("Finding awesome stuff on Etsy.<br>Hang tight, this might take several seconds!"));
         overlay.set("centered", true);
         overlay.set("visible", true);
