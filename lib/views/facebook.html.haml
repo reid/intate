@@ -1,12 +1,11 @@
 #mast
-  #query
+  %form{ action: "", id: "friends" }
     %h2 Shopping for
-    %form{ action: "", id: "friends" }
-      %input{ type: "text", id: "name" }
-      %input{ type: "hidden", id: "friend-id" }
-      #name-dropdown
+    %input{ type: "text", id: "name" }
+    %input{ type: "hidden", id: "friend-id" }
+    #name-dropdown
   %div{ style: "clear:both" }
 #content
   #friend-results
     #intro
-      %p Select a friend to begin!
+      %p Type a friend to begin!
