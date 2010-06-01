@@ -34,12 +34,20 @@ YUI().use("node", "json", "io", "overlay", "yui2-autocomplete", "yui2-datatable"
 
                 oAC.itemSelectEvent.subscribe(function (type, args) {
                     friendid.set("value", args[2].id);
+                    query(friendid.get("value"));
                 });
                 Y.one("#friends").on("submit", function (e) {
                     e.halt();
                     query(friendid.get("value"));
                 }); 
+
+                var name = Y.one("#name");
+                name.set("disabled", false);
+                name.set("value", "");
+
                 overlay.set("visible", false);
+
+                name.focus();
             },
             failure : function (resp) {
                 overlay.set("headerContent", Y.Node.create("Apologies"));
@@ -50,7 +58,7 @@ YUI().use("node", "json", "io", "overlay", "yui2-autocomplete", "yui2-datatable"
     });
 
     var query = function (user) {
-        Y.one("#friend-results").setContent("");
+        Y.one("#friend-results").setContent("Loading...");
         overlay.set("bodyContent", Y.Node.create("Finding awesome stuff on Etsy.<br>Hang tight, this might take several seconds!"));
         overlay.set("centered", true);
         overlay.set("visible", true);
