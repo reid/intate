@@ -16,7 +16,7 @@
  *   })
  *
  *   var Admin = User.extend({
- *     extend: { name: 'Admin' },
+ *     extend: { isSuperPowerful: true },
  *     constructor: function(name) {
  *       User.call(this, name.toUpperCase())
  *     }
@@ -25,8 +25,8 @@
  *   puts(new Admin('tj'))
  *   // => "[User TJ]"
  *
- *   puts(Admin.name)
- *   // => "Admin"
+ *   puts(Admin.isSuperPowerful)
+ *   // => true
  *
  * @param  {object} proto
  * @return {function}
@@ -44,13 +44,30 @@ function Class(proto) {
   if (proto.hasOwnProperty('extend'))
     extend(Class, proto.extend)
   Class.prototype = proto
-  if (isSubclass) Class.prototype.__proto__ = this.prototype
   Class.extend = arguments.callee
+  if (isSubclass) {
+    Class.prototype.__proto__ = this.prototype
+    if ('extended' in this)
+      this.extended(Class)
+  }
   return Class
 }
 
 Class.prototype = Function.prototype
-Class.prototype.include = function(proto){ extend(this.prototype, proto) }
+
+/**
+ * Include the given _proto_ object.
+ *
+ * @param  {object} proto
+ * @return {Class}
+ * @api public
+ */
+
+Class.prototype.include = function(proto){
+  extend(this.prototype, proto)
+  if ('included' in proto) proto.included(this)
+  return this
+}
 
 /**
  * Extend object _a_ with _b_.

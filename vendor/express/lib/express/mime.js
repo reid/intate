@@ -343,8 +343,8 @@ exports.types = {
 
 /**
  * Return the mime type associated with _path_,
- * where _path_ may be an extension, or full
- * file path.
+ * where _path_ may be a file path or the type of file
+ * such as "png".
  *
  * By default 'application/octet-stream' is returned,
  * however this can be altered using the 'default mime type'
@@ -352,7 +352,6 @@ exports.types = {
  *
  *   var mime = require('express/mime')
  *   mime.type('png')               // => 'image/png'
- *   mime.type('.png')              // => 'image/png'
  *   mime.type('image.png')         // => 'image/png'
  *   mime.type('path/to/image.png') // => 'image/png'
  *

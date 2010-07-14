@@ -5,7 +5,7 @@
  * Module dependencies.
  */
 
-var Request = require('express/request').Request,
+var Request = require('./../request').Request,
     extname = require('path').extname,
     fs = require('fs')
 
@@ -19,7 +19,14 @@ var engines = {}
  * View cache.
  */
  
-var cache = { views: {}, partials: {}}
+var cache = { views: {}, partials: {} }
+
+
+/**
+ * View helpers (merged with locals).
+ */
+
+var helpers = exports.helpers = {}
 
 /**
  * Cache view files where _type_ is
@@ -29,17 +36,21 @@ var cache = { views: {}, partials: {}}
  * @api public
  */
 
-function cacheFiles(type) {
-  var dir = set(type)
-  try {
-    fs.readdirSync(dir).each(function(file){
-      file = dir + '/' + file
-      if (!fs.statSync(file).isFile()) return
-      cache[type][file] = fs.readFileSync(file)
-    })
-  } catch (e) {
-    if (e.errno !== process.ENOENT) throw e
-  }
+function cacheFiles(type) { 
+  (function cacheDir(dir) {
+    try {
+      fs.readdirSync(dir).each(function(file){
+        file = dir + '/' + file
+        var stat = fs.statSync(file)
+        if (stat.isDirectory() && file != set('partials')) 
+          cacheDir(file)
+        else if (stat.isFile())
+          cache[type][file] = fs.readFileSync(file, 'utf8')
+      })
+    } catch (err) {
+      if (err.errno !== process.ENOENT) throw e
+    }
+  })(set(type))
 }
 
 // --- View
@@ -153,10 +164,12 @@ exports.View = Plugin.extend({
               layout = options.layout === undefined
                 ? 'layout'
                 : options.layout
+          options.locals = options.locals || {}
+          Object.merge(options.locals, helpers)
           options.filename = path
           if (set('cache view contents'))
             options.cache = true
-          var content = cache[type][path] || fs.readFileSync(path)
+          var content = cache[type][path] || fs.readFileSync(path).toString(options.encoding || 'utf8')
           options.context = options.context || this
           content = (engines[engine] = engines[engine] || require(engine)).render(content, options)
           if (type === 'views') this.contentType(contentType)
@@ -179,4 +192,3 @@ exports.View = Plugin.extend({
     }
   }
 })
-

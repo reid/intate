@@ -1,9 +1,10 @@
 
 // Express - Pages - Not Found - Copyright TJ Holowaychuk <tj@vision-media.ca> (MIT Licensed)
 
-var style = require('express/pages/style').style
+var style = require('./style').style
 
 exports.render = function(request) {
+  request.charset = 'UTF-8'
   request.contentType('html')
   var method = request.method.toLowerCase(),
       path = request.url.pathname || '/'

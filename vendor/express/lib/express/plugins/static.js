@@ -5,7 +5,7 @@
  * Module dependencies.
  */
 
-var Request = require('express/request').Request,
+var Request = require('./../request').Request,
     path = require('path'),
     fs = require('fs')
     
@@ -20,19 +20,20 @@ exports.Static = Plugin.extend({
      * Options:
      *
      *  - path   path from which to serve static files. Defaults to <root>/public
+     *  - bufferSize  buffers size to use for streaming files. Defaults to 65536 (8kb)
      * 
      * @param  {hash} options
      * @api private
      */
     
-    init: function(options) {
-      options = options || {}
-      options.path = options.path || set('root') + '/public'
+    init: function(config) {
+      config = config || {}
+      config.path = config.path || set('root') + '/public'
       
       // Routes
       
       get('/public/*', function(file){
-        this.sendfile(options.path + '/' + file)
+        this.sendfile(config.path + '/' + file)
       })
       
       // Request
@@ -55,6 +56,8 @@ exports.Static = Plugin.extend({
           if (options instanceof Function)
             callback = options,
             options = {}
+          else
+            options = options || {}
           if (path.indexOf('..') !== -1)
             Error.raise('InvalidPathError', "`" + path + "' is not a valid path")
           fs.stat(path, function(err, stat){
@@ -62,13 +65,22 @@ exports.Static = Plugin.extend({
               return 'errno' in err && err.errno === 2
                 ? self.notFound()
                 : self.error(err, callback)
-            var etag = stat.ino + '-' + stat.size + '-' + Number(stat.mtime)
+            var etag = Number(stat.mtime)
             if (self.header('If-None-Match') && 
                 self.header('If-None-Match') == etag)
               return self.respond(304, null)
             self.header('Content-Length', stat.size)
             self.header('ETag', etag)
-            self.respond(200, fs.readFileSync(path, "binary"))
+            options.bufferSize = options.bufferSize
+                              || config.bufferSize
+                              || 65536
+            if (stat.size > options.bufferSize)
+              return self.stream(fs.createReadStream(path, options))
+            fs.readFile(path, function(err, content){
+              if (err) return self.error(err, callback)
+              self.contentType(path)
+              self.respond(200, content)
+            })
           })
           return this
         },

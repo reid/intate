@@ -5,7 +5,8 @@
  * Module dependencies.
  */
  
-var Request = require('express/request').Request
+var Request = require('./../request').Request,
+    queryString = require('querystring')
 
 /**
  * Parse an HTTP _cookie_ string into a hash.
@@ -16,10 +17,18 @@ var Request = require('express/request').Request
  */
 
 exports.parseCookie = function(cookie) {
-  return cookie.replace(/^ *| *$/g, '').split(/ *; */).reduce(function(hash, pair){
-    var parts = pair.split(/ *= */)
-    hash[parts[0]] = parts[1]
-    return hash
+  return cookie.split(/[;,] */).reduce(function(cookies, pair) {
+    var eql = pair.indexOf('=')
+    if (eql === -1) return cookies
+    var key = queryString.unescape(pair.slice(0, eql).trim(), true)
+    var val = queryString.unescape(pair.slice(eql + 1).trim(), true)
+    var captures = val.match(/^("|')([^\1]*)\1$/)
+    if (captures) val = captures[2].replace('\\' + captures[1], captures[1])
+    //RFC2109 states the most specific path will be
+    //listed first
+    if (cookies[key] === undefined)
+      cookies[key] = val
+    return cookies
   }, {})
 }
 
@@ -36,7 +45,7 @@ exports.parseCookie = function(cookie) {
 exports.compileCookie = function(name, val, options) {
   if (!options) return name + '=' + val
   var val,
-      buf = [name + '=' + val],
+      buf = [queryString.escape(name) + '=' + queryString.escape(val)],
       keys = Object.keys(options)
   for (var i = 0, len = keys.length; i < len; ++i) {
     val = options[keys[i]]
@@ -62,7 +71,8 @@ exports.Cookie = Plugin.extend({
       Request.include({
 
         /**
-         * Get or set cookie values.
+         * Get or set cookie values. To delete a cookie
+         * simply pass a null _val_.
          *
          * Options:
          *
@@ -85,10 +95,13 @@ exports.Cookie = Plugin.extend({
         cookie: function(name, val, options) {
           options = options || {}
           options.path = options.path || '/'
-          return val ?
-            this.response.cookies.push(exports.compileCookie(name, val, options)) :
-              this.cookies[name]
-        }  
+          if (null === val)
+            val = "delete",
+            options.expires = new Date(10000000)
+          return val
+            ? this.response.cookies.push(exports.compileCookie(name, val, options))
+            : this.cookies[name]
+        }
       })
     }
   },
@@ -115,7 +128,7 @@ exports.Cookie = Plugin.extend({
     response: function(event) {
       if (event.response.cookies && 
           event.response.cookies.length)
-        event.request.header('Set-Cookie', event.response.cookies.join('\nSet-Cookie: '))
+        event.request.header('Set-Cookie', event.response.cookies.join('\r\nSet-Cookie: '))
     }
   }
 })

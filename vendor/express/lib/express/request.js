@@ -5,12 +5,12 @@
  * Module dependencies.
  */
 
-var Event = require('express/event').Event,
-    showExceptions = require('express/pages/show-exceptions'),
-    notFound = require('express/pages/not-found'),
+var Event = require('./event').Event,
+    showExceptions = require('./pages/show-exceptions'),
+    notFound = require('./pages/not-found'),
     statusBodies = require('http').STATUS_CODES,
     queryString = require('querystring'),
-    mime = require('express/mime'),
+    mime = require('./mime'),
     url = require('url'),
     ext = require('ext'),
     sys = require('sys')
@@ -56,7 +56,7 @@ exports.Request = new Class({
     this.url.pathname = exports.normalizePath(this.url.pathname)  
     this.params = {}
     this.params.path = {}
-    this.params.get = this.url.query ? queryString.parseQuery(this.url.query) : {}
+    this.params.get = this.url.query ? queryString.parse(this.url.query) : {}
     this.params.post = this.params.post || {}
     this.plugins = Express.plugins.map(function(plugin){
       return new plugin.klass(plugin.options) 
@@ -193,7 +193,9 @@ exports.Request = new Class({
     if (encoding instanceof Function)
       callback = encoding,
       encoding = null
-    if (body !== null)
+    if (204 === code)
+      body = null
+    else if (body !== null)
       body = body || statusBodies[code]
     if (encoding === 'utf8' ||
         encoding === 'utf-8')
@@ -331,7 +333,6 @@ exports.Request = new Class({
       if (err || complete === total)
         callback(err)
       else {
-        // TODO: remove when this issue is resolved...
         if (plugins[complete] === undefined)
           ++complete,
           next()

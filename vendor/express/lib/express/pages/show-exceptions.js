@@ -6,7 +6,7 @@
  */
 
 var sys = require('sys'),
-    style = require('express/pages/style').style
+    style = require('./style').style
     
 
 /**
@@ -79,6 +79,7 @@ function hashText(hash) {
 }
 
 exports.render = function(request, e) {
+  request.charset = 'UTF-8'
   request.contentType('html')
   return '<html>                                     \n\
       <head>                                         \n\

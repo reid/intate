@@ -11,7 +11,7 @@ exports.render = function(str, options) {
     new Function("locals",
       "var p=[],print=function(){p.push.apply(p,arguments);};" +
       "with(locals){p.push('" +
-      str
+      String(str)
         .replace(/[\r\t\n]/g, " ")
         .split("<%").join("\t")
         .replace(/((^|%>)[^\t]*)'/g, "$1\r")
