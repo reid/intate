@@ -83,7 +83,12 @@ exports.filters = {
   
   javascript: function(str) {
     return '<script type="text/javascript">\n//<![CDATA[\n' + str + '\n//]]></script>'
+  },
+
+  css : function (str) {
+    return '<style type="text/css">\n' + str + "\n</style>\n";
   }
+
 }
 
 /**
