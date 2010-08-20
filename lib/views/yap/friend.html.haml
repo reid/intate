@@ -3,7 +3,19 @@
     Shopping for
     %yml:name{ uid: guid }
   %div{ style: "clear:both" }
+%code#guid{ style: "display:none", title: guid }
 #content
+  :javascript
+    function intately (obj) {
+    var res = document.getElementById("friend-results");
+    res.innerHTML = "done";
+    console.log(obj);
+    }
+    gadgets.util.registerOnLoadHandler(function (){
+    var guid = document.getElementById("guid").title;
+    var p = { gadgets.io.RequestParameters.CONTENT_TYPE : "JSON" };
+    gadgets.io.makeRequest("http://intate.com/api/yahoo/etsy/" + guid, intately);
+    });
   #friend-results
     #intro
       %p Starting up...
