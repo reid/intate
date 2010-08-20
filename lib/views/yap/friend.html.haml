@@ -13,8 +13,9 @@
     }
     gadgets.util.registerOnLoadHandler(function (){
     var guid = document.getElementById("guid").title;
-    var p = { gadgets.io.RequestParameters.CONTENT_TYPE : "JSON" };
-    gadgets.io.makeRequest("http://intate.com/api/yahoo/etsy/" + guid, intately);
+    var p = {};
+    p[gadgets.io.RequestParameters.CONTENT_TYPE] = "JSON";
+    gadgets.io.makeRequest("http://intate.com/api/yahoo/etsy/" + guid, intately, p);
     });
   #friend-results
     #intro
