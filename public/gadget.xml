@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module xmlns:yap="http://www.yahoo.com/ns/yap">
+<!--
+    Sample Gadget XML Template. Created by Yahoo! on 2/18/10.
+    Copyright Yahoo! Inc. 2010. All rights reserved.
+     
+    README: 
+    After you edit this template, host the file at a location accessible via
+    a URL. Import the hosted file into your project to update your development
+    Gadget. You need to do this whenever you make changes to your hosted file.
+
+    IMPORTANT DOCUMENTATION:
+    Read Yahoo!'s requirements for ModulePrefs elements and attributes at:
+    http://developer.yahoo.com/yap/guide/gadgets-xml-config.html 
+-->
+    <!-- ModulePrefs
+         Required for Push Live: @title
+         Required for Publish: ModulePrefs@description,
+                               ModulePrefs@category,
+                               ModulePrefs/Icon,
+                               ModulePrefs/Locale -->
+    <ModulePrefs title="Intate"
+                 description="Intate is an awesome way to find handmade gifts for your friends."
+                 category="Shopping"
+                 category2="Shopping-OtherShopping">
+                 <Icon>http://intate.com/favicon.ico</Icon> <!-- Favicon URL, 16x16, Will be converted to .gif for use on Yahoo.com homepage -->        
+        <Locale lang="en" country="us"/> <!-- Supported languages -->
+
+        <!-- Yahoo! Extensions
+             Required Extensions for Push Live: NONE
+             Required Extensions for Publish: yap.gadgets.ShortDescription,
+                                              yap.gadgets.ApplicationIconUrl,
+                                              yap.gadgets.YahooComIconUrl,
+                                              yap.gadgets.ScreenshotUrl
+                                              -->
+        <yap:Extension name="yap.gadgets.ShortDescription">Handmade goodness for your friends.</yap:Extension> <!-- Shorter description. Max: 128 chars -->
+        <yap:Extension name="yap.gadgets.ApplicationIconUrl"></yap:Extension> <!-- Application Icon, 64x64 -->
+        <yap:Extension name="yap.gadgets.YahooComIconUrl">0</yap:Extension> <!-- Icon to be displayed at Yahoo.com, 20x20, .gif
+                                                                                DEPRECATED: This extension is no longer used
+                                                                                            by Yahoo.com -->
+        <yap:Extension name="yap.gadgets.ScreenshotUrl"></yap:Extension> <!-- -Screenshot preview image, 300x250 -->
+        <yap:Extension name="yap.gadgets.CreatorImageUrl"></yap:Extension> <!-- Your company logo, 256x256 -->
+        <yap:Extension name="yap.gadgets.CreatorWebsiteUrl">http://intate.com</yap:Extension> <!-- Your website -->
+        <yap:Extension name="yap.gadgets.TouUrl"></yap:Extension> <!-- Your terms of use -->
+        <yap:Extension name="yap.gadgets.PrivacyUrl"></yap:Extension> <!-- Your privacy policy -->
+        <yap:Extension name="yap.gadgets.Tags"></yap:Extension> <!-- Tags, comma separated -->
+    </ModulePrefs>
+    
+    <!-- The content of this CDATA will render in Yahoo Small View. -->
+    <!--
+    <Content type="html" view="YahooSmallView, default"><![CDATA[
+        <yml:a>Launch Intate!</yml:a>
+    ]]></Content>
+    -->
+
+    <!-- The content of this section will render in Canvas View. -->
+    <Content type="html" view="YahooFullView, canvas" href="http://intate.com/yap"/>
+ 
+    <!-- The content of this CDATA will render if no other content sections are applicable. -->
+    <Content type="html"><![CDATA[
+        <yml:a>Launch Intate!</yml:a>
+    ]]></Content>
+    
+</Module>
